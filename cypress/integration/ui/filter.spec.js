@@ -1,4 +1,4 @@
-describe("filter functionality test cases", () => {
+describe("UI - TODO filter test cases", () => {
 
   beforeEach(()=> {
     cy.intercept({

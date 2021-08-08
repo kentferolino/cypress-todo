@@ -1,13 +1,12 @@
 /// <reference types="Cypress" />
 
-describe('TODO UI Testing', () => {
+describe('UI - TODO Testing', () => {
 
   beforeEach(()=> {
     cy.visit('/')
   })
 
-  it.only("should add a new todo correctly", () => {
-
+  it("should add a new todo correctly", () => {
     cy.intercept("POST", "http://localhost:8080/todos").as("postRequest")
     cy.addNewTodo("First Todo")
     cy.wait('@postRequest').then(xhr => {
