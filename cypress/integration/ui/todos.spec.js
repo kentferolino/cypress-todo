@@ -6,9 +6,13 @@ describe('TODO UI Testing', () => {
     cy.visit('/')
   })
 
-  it("should add a new todo correctly", () => {
+  it.only("should add a new todo correctly", () => {
+
+    cy.intercept("POST", "http://localhost:8080/todos").as("postRequest")
     cy.addNewTodo("First Todo")
-    cy.addNewTodo("First Todo")
+    cy.wait('@postRequest').then(xhr => {
+      expect(xhr.request.body.name).to.eql("First Todo")
+    })
     cy.get('.todo-item').last().should("contain.text", "First Todo")
   })
 
@@ -25,7 +29,6 @@ describe('TODO UI Testing', () => {
 
   it("should not add an empty todo", () => {
     cy.addNewTodo("")
-
   })
 
   afterEach(() => {
