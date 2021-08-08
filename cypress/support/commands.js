@@ -23,3 +23,42 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("addNewTodo",(todo)=>{
+  cy.get(".todo-input").type(`${todo}{enter}`)
+  if (todo) {
+    cy.get('.success').should('be.visible')
+  } else {
+    cy.get(".error").should('be.visible')
+  }
+})
+
+Cypress.Commands.add("addDummyTodos",()=>{
+  const todos = [
+    {
+      "name": "Learn Cypress",
+      "isComplete": false
+    },
+    {
+      "name": "build framework",
+      "isComplete": true
+    },
+    {
+      "name": "shopping",
+      "isComplete": false
+    },
+    {
+      "name": "drink coffee",
+      "isComplete": true
+    },
+  ];
+
+  todos.forEach(x => {
+    cy.request("POST", "http://localhost:8080/todos", {
+      ...x
+    }).then(response => {
+      expect(response.status).to.be.eq(201)
+    })
+  })
+
+})
